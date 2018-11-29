@@ -1,10 +1,26 @@
-const { crearArchivo } = require('./multiplicar/multiplicar.js');
+const {
+    argv
+} = require('./config/yargs');
 
-let base = 'asda';
+const {
+    crearArchivo,
+    listarTabla
+} = require('./multiplicar/multiplicar.js');
 
-// crearArchivo(base)
-//     .then(archivo => console.log(`Archivo creado: ${ archivo }`))
-//     .catch(err => console.log(err));
+let comando = argv._[0];
 
-console.log(process.argv);
+switch (comando) {
+    case 'listar':
+        listarTabla(argv.base, argv.limite)
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err));
+        break;
+    case 'crear':
+        crearArchivo(argv.base, argv.limite)
+            .then((archivo) => console.log(`Archivo creado: ${ archivo }`))
+            .catch((err) => console.log(err));
+        break;
 
+    default:
+        console.log('Comando no reconocido');
+}
